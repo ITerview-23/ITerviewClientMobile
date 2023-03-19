@@ -53,7 +53,7 @@ function App(): JSX.Element {
         body : JSON.stringify({query: 
           `query ExampleQuery {
           getListOfSubject {
-            name, quizId
+            quizListId, name, description, image
           }
         }`
       })})
@@ -88,7 +88,7 @@ function App(): JSX.Element {
        {listOfSubject && listOfSubject.map((element, index) => {
         return (
           <View key={index} className="my-4 bg-blue-100 rounded-lg">
-          <ImageBackground className="h-24" imageStyle={{borderTopLeftRadius: 10, borderTopRightRadius: 10}} source={{uri : element.Image ?? "https://wallpapers.microsoft.design/images/grid-29-@1x.jpg"}} resizeMode='cover'>
+          <ImageBackground className="h-24" imageStyle={{borderTopLeftRadius: 10, borderTopRightRadius: 10}} source={{uri : element.image ?? "https://wallpapers.microsoft.design/images/grid-29-@1x.jpg"}} resizeMode='contain'>
           </ImageBackground>
           <View className='p-4'>
             <Text className='text-gray-900'>{element.description ?? "여기는 부제목, 변수명은 description입니다."}</Text>
@@ -103,8 +103,7 @@ function App(): JSX.Element {
 
        <View className='p-4 bg-blue-100 rounded-lg '>
           <Text className='font-bold text-gray-900'>남선생께 드리는 편지</Text>
-          <Text className="mt-4 text-gray-900">기기 고유 ID : {deviceUniqueID && deviceUniqueID}</Text>
-          <Text className="mt-4 text-gray-900">주제별 배경화면 변수 명은 Image 입니다. 이미지 주소를 String 타입으로 받습니다. 예: https://img-url.abc.de/fg 반환하는 이미지 주소가 없을 시 기본 배경화면으로 설정됩니다. </Text> 
+          <Text className="mt-4 text-gray-900">기기 고유 ID는 변수 명 deviceUniqueID : {deviceUniqueID && deviceUniqueID}</Text>
         </View>
 
       </ScrollView>
