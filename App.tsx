@@ -71,7 +71,7 @@ function App(): JSX.Element {
   }, [])
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView className='bg-white' style={{flex: 1}}>
       <View className='px-2 flex-row justify-between' style={{ borderBottomWidth: 1, borderColor: '#e0e0e0'}}>
         <View className='flex-row items-center'>
           <Image source={require('./Components/Images/Logo128.png')} style={{width: 48, height: 48}}/>
@@ -101,11 +101,23 @@ function App(): JSX.Element {
         )
        })}
 
+      
+
        <View className='p-4 bg-blue-100 rounded-lg '>
           <Text className='font-bold text-gray-900'>남선생께 드리는 편지</Text>
           <Text className="mt-4 text-gray-900">기기 고유 ID는 변수 명 deviceUniqueID : {deviceUniqueID && deviceUniqueID}</Text>
         </View>
 
+
+        <View className='mt-6'>
+       <Text className='text-xl text-gray-800 font-bold'>인성 면접 대비</Text>
+      </View>
+
+       <ScrollView className='flex-row mt-2'>
+        <TouchableOpacity className='w-48 h-48 bg-gray-300 rounded-lg'>
+          <Text className=''>오늘의{'\n'}랜덤 면접</Text>
+        </TouchableOpacity>
+       </ScrollView>
       </ScrollView>
     </SafeAreaView>
   );
