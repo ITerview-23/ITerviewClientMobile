@@ -5,13 +5,13 @@
  * @format
  */
 
-import React, {cloneElement, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
   ScrollView,
-  StatusBar,
+  Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -20,19 +20,11 @@ import {
   Image,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import QuizStartSection from './Components/QuizStartSection';
 import DeviceInfo from 'react-native-device-info';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import Subject from './Components/Subjects/Subject';
+import MyProfileModal from './Components/Profiles/MyProfileModal';
+import QuizModal from './Components/Quizs/QuizModal';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -40,9 +32,9 @@ function App(): JSX.Element {
   const [deviceUniqueID, setdeviceUniqueID] = useState('');
   const [listOfSubject, setListOfSubject] = useState([]);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  // modal visible states
+  const [profileModalVisible, setProfileModalVisible] = useState(false);
+  const [quizModalVisible, setQuizModalVisible] = useState(false);
 
   useEffect(() => {
     // get subject list of subject
@@ -79,78 +71,88 @@ function App(): JSX.Element {
           />
         </View>
         <View className="items-center justify-center">
-          <TouchableOpacity className="w-8 h-8 bg-slate-300 rounded-full"></TouchableOpacity>
+          <TouchableOpacity
+            className="w-8 h-8 bg-slate-300 rounded-full"
+            onPress={() => setProfileModalVisible(true)}></TouchableOpacity>
         </View>
       </View>
-      <ScrollView className="p-4">
-        <View className="mt-2">
-          <Text className="text-xl text-gray-700 font-bold">
-            오늘도 상큼한{'\n'}IT터뷰 준비하세요.
-          </Text>
-        </View>
+      <ScrollView>
+        <View className="p-4">
+          <View className="mt-2">
+            <Text className="text-xl text-gray-700">
+              오늘도 상큼한{'\n'}IT터뷰 준비하세요.
+            </Text>
+          </View>
 
-        <View className="my-4 rounded-lg">
-          <ImageBackground
-            className="h-24"
-            imageStyle={{
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-            }}
-            source={{
-              uri: 'https://wallpapers.microsoft.design/images/grid-29-@1x.jpg',
-            }}
-            resizeMode="contain"></ImageBackground>
-        </View>
+          {/* 데일리 면접 퀴즈  */}
+          <View className="my-4 bg-blue-100 rounded-lg">
+            <View className="p-4 flex-row item-center">
+              <Image
+                source={require('./Components/Images/Icons/spiral-calendar.png')}
+                className="w-16 h-16"
+              />
+              <View className="pl-4">
+                <Text className="text-lg text-gray-800">
+                  {new Date().toLocaleString('ko-KR', {
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </Text>
+                <Text className="text-2xl text-gray-900 font-bold">
+                  데일리 퀴즈
+                </Text>
+              </View>
+            </View>
 
-        <View className="my-4 bg-blue-100 rounded-lg">
-          <View className="p-4">
-            <Text className="text-gray-900"></Text>
-            <Text className="text-2xl text-gray-900 font-bold">3월 24일</Text>
-            <TouchableOpacity className="mt-4 p-2 bg-blue-500 rounded-lg">
-              <Text className="text-lg text-blue-100 text-center">
-                퀴즈 풀기
+            <View className="p-4">
+              <Text className="text-gray-900">
+                데일리 퀴즈를 풀고 포인트를 얻으세요!
               </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                className="mt-4 p-2 bg-blue-500 rounded-lg"
+                onPress={() => setQuizModalVisible(true)}>
+                <Text className="text-lg text-gray-100 text-center">
+                  퀴즈 풀기
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* 주제 별 기술 면접 퀴즈 섹션 */}
+          <View className="mt-6">
+            <Text className="text-xl text-gray-800 font-bold">
+              주제 별 퀴즈
+            </Text>
+          </View>
+          <View className="mt-2 space-y-2">
+            {listOfSubject &&
+              listOfSubject.map((element, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    className="bg-gray-100 rounded-lg">
+                    <Subject element={element && element} />
+                  </TouchableOpacity>
+                );
+              })}
+          </View>
+
+          {/* 채용 공고 */}
+          <View className="mt-6">
+            <Text className="text-xl text-gray-800 font-bold">채용 공고</Text>
           </View>
         </View>
-
-        {/* 주제 별 기술 면접 퀴즈 섹션 */}
-        <View className="mt-6">
-          <Text className="text-xl text-gray-800 font-bold">주제별 퀴즈</Text>
-        </View>
-        <View className="mt-2 space-y-2">
-          {listOfSubject &&
-            listOfSubject.map((element, index) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  className="bg-gray-100 rounded-lg">
-                  <View className="m-2 flex-row">
-                    <View>
-                      <Image
-                        source={require('./Components/Images/Icons/Global.png')}
-                        className="w-12 h-12"
-                      />
-                      <View className="ml-2">
-                        <Text className="text-lg font-bold text-gray-900">
-                          {element.name ?? '제목을 입력하세요.'}
-                        </Text>
-                        <Text className="text-gray-900">
-                          {element.description ?? '설명을 입력하세요.'}
-                        </Text>
-                      </View>
-                      <View>
-                        <Text className="text-lg font-bold text-gray-900">
-                          〉
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-        </View>
       </ScrollView>
+
+      {/* Modal */}
+      <MyProfileModal
+        visible={profileModalVisible}
+        onClose={() => setProfileModalVisible(false)}
+      />
+      <QuizModal
+        visible={quizModalVisible}
+        onClose={() => setQuizModalVisible(false)}
+      />
     </SafeAreaView>
   );
 }
