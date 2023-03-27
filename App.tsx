@@ -61,9 +61,7 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView className="bg-white" style={{flex: 1}}>
-      <View
-        className="px-2 flex-row justify-between"
-        style={{borderBottomWidth: 1, borderColor: '#e0e0e0'}}>
+      <View className="px-2 flex-row justify-between border-b-2 border-gray-100">
         <View className="flex-row items-center">
           <Image
             source={require('./Components/Images/Logo128.png')}
@@ -136,23 +134,18 @@ function App(): JSX.Element {
                 );
               })}
           </View>
-
-          {/* 채용 공고 */}
-          <View className="mt-6">
-            <Text className="text-xl text-gray-800 font-bold">채용 공고</Text>
-          </View>
         </View>
-      </ScrollView>
 
-      {/* Modal */}
-      <MyProfileModal
-        visible={profileModalVisible}
-        onClose={() => setProfileModalVisible(false)}
-      />
-      <QuizModal
-        visible={quizModalVisible}
-        onClose={() => setQuizModalVisible(false)}
-      />
+        {/* Modal */}
+        <MyProfileModal
+          visible={profileModalVisible}
+          onClose={() => setProfileModalVisible(false)}
+        />
+        <QuizModal
+          visible={quizModalVisible}
+          onClose={() => setQuizModalVisible(false)}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
