@@ -50,6 +50,7 @@ function QuizModal({visible, onClose}): JSX.Element {
         ).length;
         tmpQuizInputList = Array(quizInputListLength).fill('');
         setQuizInputList(tmpQuizInputList);
+        console.log(quiz);
       })
       .catch(err => {
         console.log(err);
@@ -59,10 +60,10 @@ function QuizModal({visible, onClose}): JSX.Element {
   return (
     <Modal
       visible={visible}
-      animationType="none"
+      animationType={'fade'}
       transparent={true}
       onRequestClose={onClose}>
-      <SafeAreaView className="h-full bg-white">
+      <SafeAreaView className="flex-1 bg-white">
         <View className="px-2 flex-row justify-between border-b-2 border-gray-100">
           <View className="justify-center">
             <TouchableOpacity

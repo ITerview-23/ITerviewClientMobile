@@ -24,7 +24,7 @@ import DeviceInfo from 'react-native-device-info';
 
 import Subject from './Components/Subjects/Subject';
 import MyProfileModal from './Components/Profiles/MyProfileModal';
-import QuizModal from './Components/Quizs/QuizModal';
+import QuizModal from './Components/Quizzes/QuizModal';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
