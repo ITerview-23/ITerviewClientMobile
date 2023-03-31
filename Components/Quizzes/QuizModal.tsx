@@ -19,12 +19,56 @@ interface Props {
 
 function QuizModal({visible, onClose}): JSX.Element {
   const [quiz, setQuiz] = useState();
-  const [quizInput, setQuizInput] = useState('');
-  const [quizInput2, setQuizInput2] = useState('');
-  const [quizInputList, setQuizInputList] = useState([]);
+  const [quizInputList, setQuizInputList] = useState();
 
-  // NOT GOOD
-  const [quizInputCount, setQuizInputCount] = useState(0);
+  // answer check
+  const [isQuizAnswer, setQuizAnswer] = useState();
+
+  // check message
+  const [quizMessage, setQuizMessage] = useState('');
+
+  const changeQuizInputByIndex = (index: number, text: string) => {
+    if (quizInputList) {
+      const oldInput = [...quizInputList];
+      oldInput[index] = text;
+      setQuizInputList(oldInput);
+    }
+  };
+
+  // check answer
+  const checkAnswer = () => {
+    console.log(quizInputList);
+
+    if (!quizInputList) {
+      return;
+    }
+    // delete some quiz input with length 0
+    const submitQuizInputList =
+      quizInputList && quizInputList.filter(str => str.length != 0);
+
+    console.log(submitQuizInputList);
+
+    // request for checking answer
+    fetch('https://www.iterview.site/graphql', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        query: `
+          query ExampleQuery($quizId: Int!, $answer: [String!]!) {
+            checkAnswer(quizId: $quizId, answer: $answer)
+          }
+        `,
+        variables: {quizId: 1, answer: submitQuizInputList},
+      }),
+    })
+      .then(async response => {
+        const data = await response.json();
+        setQuizAnswer(data.data.checkAnswer);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     // get quiz
@@ -36,7 +80,7 @@ function QuizModal({visible, onClose}): JSX.Element {
             getQuiz(quizListId: 1, userId: "1") {
                 quizId
                 quizInfo
-              }
+            }
         }`,
       }),
     })
@@ -45,12 +89,8 @@ function QuizModal({visible, onClose}): JSX.Element {
         setQuiz(data.data.getQuiz);
 
         // initiate quizinputlist
-        const quizInputListLength = quiz.quizInfo.filter(
-          str => str.length == 0,
-        ).length;
-        tmpQuizInputList = Array(quizInputListLength).fill('');
-        setQuizInputList(tmpQuizInputList);
-        console.log(quiz);
+        tmpArray = Array(quiz && quiz.quizInfo.length).fill('');
+        setQuizInputList(tmpArray);
       })
       .catch(err => {
         console.log(err);
@@ -102,19 +142,20 @@ function QuizModal({visible, onClose}): JSX.Element {
                     if (value.length == 0) {
                       return (
                         <TextInput
-                          editable={true}
-                          autoFocus={true}
-                          numberOfLines={1}
+                          key={index}
                           onChangeText={text => {
-                            // setQuizInputList(text)
+                            changeQuizInputByIndex(index, text);
                           }}
-                          value={quizInput}
+                          editable={true}
+                          numberOfLines={1}
                           className="pb-2 px-2 m-2 rounded-lg border-b-2 border-blue-500 bg-gray-100 text-lg"
                         />
                       );
                     } else {
                       return (
-                        <Text className="text-lg text-gray-900">{value}</Text>
+                        <Text key={index} className="text-lg text-gray-900">
+                          {value}
+                        </Text>
                       );
                     }
                   })}
@@ -122,8 +163,19 @@ function QuizModal({visible, onClose}): JSX.Element {
             </View>
           </View>
 
+          <View className="p-4 items-center">
+            <Text className="text-blue-900">
+              {isQuizAnswer &&
+                (isQuizAnswer == true ? '정답입니다!' : '오답입니다!')}
+            </Text>
+          </View>
+
           <View className="p-4">
-            <TouchableOpacity className="p-2 bg-blue-500 rounded-lg items-center">
+            <TouchableOpacity
+              onPress={() => {
+                checkAnswer();
+              }}
+              className="p-2 bg-blue-500 rounded-lg items-center">
               <Text className="text-lg text-gray-100">제출하기</Text>
             </TouchableOpacity>
           </View>
