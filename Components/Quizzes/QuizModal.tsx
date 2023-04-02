@@ -37,16 +37,13 @@ function QuizModal({visible, onClose}): JSX.Element {
 
   // check answer
   const checkAnswer = () => {
-    console.log(quizInputList);
-
     if (!quizInputList) {
       return;
     }
     // delete some quiz input with length 0
     const submitQuizInputList =
-      quizInputList && quizInputList.filter(str => str.length != 0);
-
-    console.log(submitQuizInputList);
+      quizInputList &&
+      quizInputList.filter(str => typeof str == 'string' && str.length != 0);
 
     // request for checking answer
     fetch('https://www.iterview.site/graphql', {
