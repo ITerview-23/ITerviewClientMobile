@@ -16,8 +16,8 @@ function MyProfileModal({visible, onClose}): JSX.Element {
           </View>
           <TouchableOpacity
             onPress={onClose}
-            className="w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
-            <Text>X</Text>
+            className="w-8 h-8 bg-gray-100 rounded-full justify-center items-center">
+            <Text className="text-gray-600">X</Text>
           </TouchableOpacity>
         </View>
         <View className="px-4 mt-4">
