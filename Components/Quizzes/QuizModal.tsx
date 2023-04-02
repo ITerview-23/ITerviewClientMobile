@@ -22,7 +22,7 @@ function QuizModal({visible, onClose}): JSX.Element {
   const [quizInputList, setQuizInputList] = useState();
 
   // answer check
-  const [isQuizAnswer, setQuizAnswer] = useState();
+  const [isQuizAnswer, setQuizAnswer] = useState(false);
 
   // check message
   const [quizMessage, setQuizMessage] = useState('');
@@ -60,7 +60,10 @@ function QuizModal({visible, onClose}): JSX.Element {
     })
       .then(async response => {
         const data = await response.json();
-        setQuizAnswer(data.data.checkAnswer);
+        return data.data.checkAnswer;
+      })
+      .then(answer => {
+        setQuizAnswer(answer);
       })
       .catch(error => {
         console.log(error);
@@ -105,8 +108,8 @@ function QuizModal({visible, onClose}): JSX.Element {
           <View className="justify-center">
             <TouchableOpacity
               onPress={onClose}
-              className="w-8 h-8 bg-gray-200 rounded-full justify-center items-center">
-              <Text>〈</Text>
+              className="w-8 h-8 bg-gray-100 rounded-full justify-center items-center">
+              <Text className="text-gray-600">〈</Text>
             </TouchableOpacity>
           </View>
 
@@ -121,7 +124,9 @@ function QuizModal({visible, onClose}): JSX.Element {
         <KeyboardAvoidingView>
           <View className="px-4 pt-4 flex-row justify-betweens">
             <View className="justify-center">
-              <Text className="text-2xl text-gray-900">데일리 퀴즈</Text>
+              <Text className="text-2xl text-gray-900 font-bold">
+                데일리 퀴즈
+              </Text>
               <Text className="text-gray-800">
                 {new Date().toLocaleString('ko-KR', {
                   month: 'short',
@@ -132,7 +137,7 @@ function QuizModal({visible, onClose}): JSX.Element {
           </View>
 
           <View className="p-4">
-            <View className="p-4 bg-blue-100 rounded-lg">
+            <View className="p-4 py-10 bg-blue-200 rounded-lg">
               <View className="flex-row flex-wrap items-center justify-center">
                 {quiz &&
                   quiz.quizInfo.map((value, index) => {
@@ -160,13 +165,6 @@ function QuizModal({visible, onClose}): JSX.Element {
             </View>
           </View>
 
-          <View className="p-4 items-center">
-            <Text className="text-blue-900">
-              {isQuizAnswer &&
-                (isQuizAnswer == true ? '정답입니다!' : '오답입니다!')}
-            </Text>
-          </View>
-
           <View className="p-4">
             <TouchableOpacity
               onPress={() => {
@@ -175,6 +173,23 @@ function QuizModal({visible, onClose}): JSX.Element {
               className="p-2 bg-blue-500 rounded-lg items-center">
               <Text className="text-lg text-gray-100">제출하기</Text>
             </TouchableOpacity>
+          </View>
+
+          <View className="p-4">
+            <TouchableOpacity
+              onPress={() => {
+                checkAnswer();
+              }}
+              className="p-2 bg-blue-200 rounded-lg items-center">
+              <Text className="text-lg text-blue-600">모범 답안</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View className="p-4 items-center">
+            <Text className="text-blue-900">
+              {isQuizAnswer &&
+                (isQuizAnswer == true ? '정답입니다!' : '오답입니다!')}
+            </Text>
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
