@@ -61,7 +61,7 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView className="bg-white" style={{flex: 1}}>
-      <View className="px-2 flex-row justify-between border-b-2 border-gray-100">
+      <View className="px-2 flex-row justify-between border-b-[1px] border-gray-100">
         <View className="flex-row items-center">
           <Image
             source={require('./Components/Images/Logo128.png')}
@@ -70,7 +70,7 @@ function App(): JSX.Element {
         </View>
         <View className="items-center justify-center">
           <TouchableOpacity
-            className="w-8 h-8 bg-slate-300 rounded-full"
+            className="w-8 h-8 bg-gray-200 rounded-full"
             onPress={() => setProfileModalVisible(true)}></TouchableOpacity>
         </View>
       </View>

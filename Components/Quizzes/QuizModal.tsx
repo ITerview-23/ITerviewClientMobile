@@ -23,7 +23,7 @@ function QuizModal({visible, onClose}): JSX.Element {
   const [quizInputList, setQuizInputList] = useState();
 
   // answer check
-  const [isQuizAnswer, setQuizAnswer] = useState(false);
+  const [isQuizAnswer, setQuizAnswer] = useState(undefined);
 
   // check message
   const [quizMessage, setQuizMessage] = useState('');
@@ -38,13 +38,15 @@ function QuizModal({visible, onClose}): JSX.Element {
 
   // check answer
   const checkAnswer = () => {
-    if (!quizInputList) {
-      return;
-    }
-    // delete some quiz input with length 0
+    // delete some quiz input with lensgth 0
     const submitQuizInputList =
       quizInputList &&
       quizInputList.filter(str => typeof str == 'string' && str.length != 0);
+
+    // [] : 리스트에 아무것도 입력하지 않은 경우
+    if (submitQuizInputList.length == 0) {
+      return;
+    }
 
     // request for checking answer
     fetch('https://www.iterview.site/graphql', {
@@ -131,7 +133,7 @@ function QuizModal({visible, onClose}): JSX.Element {
       transparent={true}
       onRequestClose={onClose}>
       <SafeAreaView className="flex-1 bg-white">
-        <View className="px-2 flex-row justify-between border-b-2 border-gray-100">
+        <View className="px-2 flex-row justify-between border-b-[1px] border-gray-100">
           <View className="justify-center">
             <TouchableOpacity
               onPress={onClose}
@@ -214,11 +216,12 @@ function QuizModal({visible, onClose}): JSX.Element {
             </View>
 
             <View className="p-4 items-center">
-              {isQuizAnswer && isQuizAnswer == true ? (
-                <Text className="text-blue-900">{'정답입니다!'}</Text>
-              ) : (
-                <Text className="text-blue-900">{'땡!'}</Text>
-              )}
+              {isQuizAnswer != undefined &&
+                (isQuizAnswer == true ? (
+                  <Text className="text-blue-900">{'정답입니다!'}</Text>
+                ) : (
+                  <Text className="text-blue-900">{'땡!'}</Text>
+                ))}
               {quizMessage && (
                 <Text className="text-blue-900">정답 : {quizMessage}</Text>
               )}
