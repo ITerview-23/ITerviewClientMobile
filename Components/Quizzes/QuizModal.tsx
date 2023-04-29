@@ -234,11 +234,12 @@ function QuizModal({visible, onClose}): JSX.Element {
         </ScrollView>
       </SafeAreaView>
 
-      {/* Modal */}
+      {/* Modal 
       <QuizAnswerModal
         visible={quizAnswerModalVisible}
         onClose={() => setQuizAnswerModalVisible(false)}
       />
+      */}
     </Modal>
   );
 }
