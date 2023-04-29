@@ -8,11 +8,8 @@
 import React, {useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
-  ImageBackground,
   SafeAreaView,
   ScrollView,
-  Modal,
-  StyleSheet,
   Text,
   TouchableOpacity,
   useColorScheme,
@@ -70,6 +67,7 @@ function App(): JSX.Element {
             source={require('./Components/Images/Logo128.png')}
             style={{width: 48, height: 48}}
           />
+          <Text className="text-md text-gray-800 font-medium">잇터뷰</Text>
         </View>
         <View className="items-center justify-center">
           <TouchableOpacity
@@ -77,54 +75,38 @@ function App(): JSX.Element {
             onPress={() => setProfileModalVisible(true)}></TouchableOpacity>
         </View>
       </View>
-      <ScrollView>
-        <View className="p-4">
-          <View className="mt-2">
-            <Text className="text-xl text-gray-700">
-              오늘도 상큼한{'\n'}IT터뷰 준비하세요.
-            </Text>
-          </View>
 
+      <ScrollView className="bg-gray-100">
+        <View className="p-4">
           {/* 데일리 면접 퀴즈  */}
-          <View className="my-4 bg-blue-100 rounded-lg">
-            <View className="p-4 flex-row item-center">
+          <TouchableOpacity
+            onPress={() => setQuizModalVisible(true)}
+            className="p-4 bg-white rounded-lg shadow-lg shadow-black/40">
+            <View className="flex-row justify-between">
               <Image
                 source={require('./Components/Images/Icons/spiral-calendar.png')}
-                className="w-16 h-16"
+                className="w-8 h-8"
               />
-              <View className="pl-4">
-                <Text className="text-lg text-gray-800">
-                  {new Date().toLocaleString('ko-KR', {
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                </Text>
-                <Text className="text-2xl text-gray-900 font-bold">
-                  데일리 퀴즈
+              <View className="px-2 w-full">
+                <View className="flex-row items-center flex-wrap">
+                  <Text className="text-2xl text-black font-bold">
+                    데일리 퀴즈
+                  </Text>
+                  <Text className="ml-2 p-1 text-xs bg-blue-100 text-blue-500 rounded-lg">
+                    {new Date().toLocaleString('ko-KR', {
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </Text>
+                </View>
+                <Text className="pt-2 text-gray-600">
+                  매일 바뀌는 다양한 주제의 퀴즈를 풀어보세요.
                 </Text>
               </View>
             </View>
-
-            <View className="p-4">
-              <Text className="text-gray-900">
-                데일리 퀴즈를 풀고 포인트를 얻으세요!
-              </Text>
-              <TouchableOpacity
-                className="mt-4 p-2 bg-blue-500 rounded-lg"
-                onPress={() => setQuizModalVisible(true)}>
-                <Text className="text-lg text-gray-100 text-center">
-                  퀴즈 풀기
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          </TouchableOpacity>
 
           {/* 주제 별 기술 면접 퀴즈 섹션 */}
-          <View className="mt-6">
-            <Text className="text-xl text-gray-800 font-bold">
-              주제 별 퀴즈
-            </Text>
-          </View>
           <View className="mt-2 space-y-2">
             {listOfSubject &&
               listOfSubject.map((element, index) => {

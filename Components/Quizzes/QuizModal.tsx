@@ -137,8 +137,8 @@ function QuizModal({visible, onClose}): JSX.Element {
           <View className="justify-center">
             <TouchableOpacity
               onPress={onClose}
-              className="w-8 h-8 bg-gray-100 rounded-full justify-center items-center">
-              <Text className="text-gray-600">〈</Text>
+              className="w-8 h-8 rounded-full justify-center items-center">
+              <Text className="text-gray-600">ᐸ</Text>
             </TouchableOpacity>
           </View>
 
@@ -225,6 +225,13 @@ function QuizModal({visible, onClose}): JSX.Element {
               {quizMessage && (
                 <Text className="text-blue-900">정답 : {quizMessage}</Text>
               )}
+            </View>
+
+            {/* 다음 문제로 */}
+            <View className="px-4 py-2">
+              <TouchableOpacity className="p-2 bg-gray-100 rounded-lg items-center">
+                <Text className="text-lg text-gray-5A00">다음 문제로</Text>
+              </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
         </ScrollView>
