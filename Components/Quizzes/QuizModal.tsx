@@ -211,10 +211,10 @@ function QuizModal({visible, onClose}): JSX.Element {
             )}
           </View>
 
-          <View className="mx-4 flex-row justify-center border-[1px] border-gray-200 rounded-lg">
+          <View className="mx-4 flex-row justify-between border-[1px] border-gray-200 rounded-lg">
             {/* 이전 문제로 */}
-            <TouchableOpacity className="p-2 items-center">
-              <Text className="text-lg text-gray-600">이전 문제로</Text>
+            <TouchableOpacity className="p-2 items-center bg-gray-100 border-r-[1px] border-gray-200">
+              <Text className="text-gray-600">이전 문제로</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -223,12 +223,12 @@ function QuizModal({visible, onClose}): JSX.Element {
                 // showAnswer();
               }}
               className="p-2 items-center">
-              <Text className="text-lg text-gray-600">모범 답안</Text>
+              <Text className="text-gray-600">모범 답안</Text>
             </TouchableOpacity>
 
             {/* 다음 문제로 */}
-            <TouchableOpacity className="p-2 items-center">
-              <Text className="text-lg text-gray-600">다음 문제로</Text>
+            <TouchableOpacity className="p-2 items-center bg-gray-100 border-l-[1px] border-gray-200">
+              <Text className="text-gray-600">다음 문제로</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
