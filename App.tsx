@@ -81,7 +81,7 @@ function App(): JSX.Element {
           {/* 데일리 면접 퀴즈  */}
           <TouchableOpacity
             onPress={() => setQuizModalVisible(true)}
-            className="p-4 bg-white rounded-lg shadow-lg shadow-black/60">
+            className="p-4 bg-white rounded-lg border-[1px] border-gray-100 border-b-gray-300">
             <View className="flex-row justify-between">
               <Image
                 source={require('./Components/Images/Icons/spiral-calendar.png')}
