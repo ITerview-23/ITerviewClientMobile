@@ -76,12 +76,12 @@ function App(): JSX.Element {
         </View>
       </View>
 
-      <ScrollView className="bg-gray-100">
+      <ScrollView className="">
         <View className="p-4">
           {/* 데일리 면접 퀴즈  */}
           <TouchableOpacity
             onPress={() => setQuizModalVisible(true)}
-            className="p-4 bg-white rounded-lg shadow-lg shadow-black/40">
+            className="p-4 bg-white rounded-lg shadow-lg shadow-black/60">
             <View className="flex-row justify-between">
               <Image
                 source={require('./Components/Images/Icons/spiral-calendar.png')}
