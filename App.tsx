@@ -6,7 +6,6 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,6 +15,7 @@ import {
   View,
   Image,
   StatusBar,
+  Linking,
 } from 'react-native';
 
 import DeviceInfo from 'react-native-device-info';
@@ -76,31 +76,52 @@ function App(): JSX.Element {
         </View>
       </View>
 
-      <ScrollView className="">
+      <ScrollView>
         <View className="p-4">
+          {/* 사용 팁  */}
+          <TouchableOpacity
+            onPress={() => Linking.openURL('https://iterview-23.github.io/')}
+            className="p-4 bg-gray-100 rounded-2xl">
+            <View className="flex-row justify-between">
+              <Image
+                source={require('./Components/Images/Icons/sparkles.png')}
+                className="w-6 h-6"
+              />
+              <View className="pl-2 w-full">
+                <View className="items-left flex-wrap">
+                  <Text className="text-xs text-yellow-500">사용 팁</Text>
+                  <Text className=" text-gray-700 font-medium">
+                    잇터뷰 200% 활용법
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+
           {/* 데일리 면접 퀴즈  */}
           <TouchableOpacity
             onPress={() => setQuizModalVisible(true)}
-            className="p-4 bg-white rounded-lg border-[1px] border-gray-100 border-b-gray-300">
+            className="mt-4 p-6 bg-blue-100 rounded-2xl">
             <View className="flex-row justify-between">
               <Image
                 source={require('./Components/Images/Icons/spiral-calendar.png')}
                 className="w-8 h-8"
               />
-              <View className="px-2 w-full">
+              <View className="pl-2 w-full">
+                <Text className="text-xs text-blue-500 font-bold">
+                  {new Date().toLocaleString('ko-KR', {
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </Text>
+
                 <View className="flex-row items-center flex-wrap">
-                  <Text className="text-2xl text-black font-bold">
+                  <Text className="text-lg text-gray-900 font-bold">
                     데일리 퀴즈
                   </Text>
-                  <Text className="ml-2 p-1 text-xs bg-blue-100 text-blue-500 rounded-lg">
-                    {new Date().toLocaleString('ko-KR', {
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </Text>
                 </View>
-                <Text className="pt-2 text-gray-600">
-                  매일 바뀌는 다양한 주제의 퀴즈를 풀어보세요.
+                <Text className="text-gray-600">
+                  다양한 주제의 퀴즈를 풀어보세요!
                 </Text>
               </View>
             </View>
