@@ -19,10 +19,7 @@ interface Props {
   quizInfo: Array<string>;
 }
 
-function QuizScreen({route, navigation}: any): JSX.Element {
-  // 퀴즈 주제 정보
-  const [QuizListInfo, setQuizListInfo] = useState();
-
+function QuizDailyScreen({route, navigation}: any): JSX.Element {
   const [quiz, setQuiz] = useState();
   const [quizInputList, setQuizInputList] = useState();
 
@@ -107,15 +104,13 @@ function QuizScreen({route, navigation}: any): JSX.Element {
   };
 
   useEffect(() => {
-    setQuizListInfo(route.params.element);
-
     // get quiz
     fetch('https://www.iterview.site/graphql', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         query: `query ExampleQuery {
-            getQuiz(quizListId: ${route.params.element.quizListId}, userId: "1") {
+            getDailyQuiz(userId: "1") {
                 quizId
                 quizInfo
             }
@@ -159,7 +154,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
           <View className="m-4 self-center items-center">
             <Text className="px-2 pt-2 text-gray-500 rounded-t-2xl">주제</Text>
             <Text className="px-2 pb-2 text-lg font-medium text-gray-800">
-              {(QuizListInfo && QuizListInfo.name) ?? '랜덤 퀴즈'}
+              데일리 퀴즈
             </Text>
           </View>
 
@@ -247,4 +242,4 @@ function QuizScreen({route, navigation}: any): JSX.Element {
   );
 }
 
-export default QuizScreen;
+export default QuizDailyScreen;

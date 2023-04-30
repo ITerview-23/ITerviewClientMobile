@@ -6,6 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // Stack Screens
 import MainScreen from './MainScreen';
 import QuizScreen from './Components/Quizzes/QuizScreen';
+import QuizDailyScreen from './Components/Quizzes/QuizDailyScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ function App(): JSX.Element {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="Main" component={MainScreen} />
+          <Stack.Screen name="QuizDaily" component={QuizDailyScreen} />
           <Stack.Screen name="Quiz" component={QuizScreen} />
         </Stack.Navigator>
       </NavigationContainer>
