@@ -70,8 +70,9 @@ function App(): JSX.Element {
           <Text className="text-md text-gray-800 font-medium">잇터뷰</Text>
         </View>
         <View className="items-center justify-center">
+          {/* 프로필 버튼 - 추후 변경 예정, 1차 출시 때 미완성인 기능이므로 투명으로 색상 변경 */}
           <TouchableOpacity
-            className="w-8 h-8 bg-gray-200 rounded-full"
+            className="w-8 h-8 bg-trans rounded-full"
             onPress={() => setProfileModalVisible(true)}></TouchableOpacity>
         </View>
       </View>
