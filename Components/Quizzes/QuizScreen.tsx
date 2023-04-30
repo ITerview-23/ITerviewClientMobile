@@ -10,6 +10,8 @@ import {
   ScrollView,
 } from 'react-native';
 
+import Quiz from './Quiz';
+
 import QuizAnswerModal from './QuizAnswerModal';
 
 interface Props {
@@ -65,7 +67,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
             checkAnswer(quizId: $quizId, answer: $answer)
           }
         `,
-        variables: {quizId: 1, answer: submitQuizInputList},
+        variables: {quizId: quiz && quiz.quizId, answer: submitQuizInputList},
       }),
     })
       .then(async response => {
@@ -106,9 +108,8 @@ function QuizScreen({route, navigation}: any): JSX.Element {
       });
   };
 
-  useEffect(() => {
-    setQuizListInfo(route.params.element);
-
+  // get quiz
+  const getQuiz = () => {
     // get quiz
     fetch('https://www.iterview.site/graphql', {
       method: 'POST',
@@ -133,6 +134,11 @@ function QuizScreen({route, navigation}: any): JSX.Element {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    setQuizListInfo(route.params.element);
+    getQuiz();
   }, []);
 
   return (
@@ -165,34 +171,21 @@ function QuizScreen({route, navigation}: any): JSX.Element {
                 {(QuizListInfo && QuizListInfo.name) ?? '랜덤 퀴즈'}
               </Text>
             </View>
-
             <View className="m-4 bg-white rounded-2xl">
               <View>
-                <View className="p-4 py-10 bg-blue-200 rounded-t-2xl">
-                  <View className="flex-row flex-wrap items-center justify-center">
-                    {quiz &&
-                      quiz.quizInfo.map((value, index) => {
-                        if (value.length == 0) {
-                          return (
-                            <TextInput
-                              key={index}
-                              onChangeText={text => {
-                                changeQuizInputByIndex(index, text);
-                              }}
-                              editable={true}
-                              numberOfLines={1}
-                              className="pb-2 px-2 m-2 rounded-lg border-b-2 border-blue-500 bg-gray-100 text-lg"
-                            />
-                          );
-                        } else {
-                          return (
-                            <Text key={index} className="text-lg text-gray-900">
-                              {value}
-                            </Text>
-                          );
-                        }
-                      })}
-                  </View>
+                <View className="p-4 pb-10 bg-blue-200 rounded-t-2xl">
+                  <TouchableOpacity
+                    onPress={() => {
+                      setQuizAnswerModalVisible(true);
+                      // showAnswer();
+                    }}
+                    className="p-2 pb-4 items-end">
+                    <Text className="text-blue-600">모범 답안</Text>
+                  </TouchableOpacity>
+                  <Quiz
+                    quiz={quiz && quiz}
+                    changeQuizInputByIndex={changeQuizInputByIndex}
+                  />
                 </View>
               </View>
 
@@ -220,21 +213,16 @@ function QuizScreen({route, navigation}: any): JSX.Element {
 
           <View className="px-4 pb-6 flex-row justify-between">
             {/* 이전 문제로 */}
-            <TouchableOpacity className="p-2 items-center">
+            <TouchableOpacity
+              onPress={() => getQuiz()}
+              className="p-2 items-center">
               <Text className="text-gray-600">이전 문제로</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => {
-                setQuizAnswerModalVisible(true);
-                // showAnswer();
-              }}
-              className="p-2 items-center">
-              <Text className="text-blue-600">모범 답안</Text>
-            </TouchableOpacity>
-
             {/* 다음 문제로 */}
-            <TouchableOpacity className="p-2 items-center">
+            <TouchableOpacity
+              onPress={() => getQuiz()}
+              className="p-2 items-center">
               <Text className="text-gray-600">다음 문제로</Text>
             </TouchableOpacity>
           </View>

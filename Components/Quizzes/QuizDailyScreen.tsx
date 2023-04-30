@@ -162,7 +162,15 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
 
           <View className="m-4 bg-white rounded-2xl">
             <View>
-              <View className="p-4 py-10 bg-blue-200 rounded-t-2xl">
+              <View className="p-4 pb-10 bg-blue-200 rounded-t-2xl">
+                <TouchableOpacity
+                  onPress={() => {
+                    setQuizAnswerModalVisible(true);
+                    // showAnswer();
+                  }}
+                  className="p-2 pb-4 items-end">
+                  <Text className="text-blue-600">모범 답안</Text>
+                </TouchableOpacity>
                 <View className="flex-row flex-wrap items-center justify-center">
                   {quiz &&
                     quiz.quizInfo.map((value, index) => {
@@ -212,23 +220,14 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
           )}
         </View>
 
-        <View className="mx-4 flex-row justify-between border-[1px] border-gray-200 rounded-lg">
+        <View className="px-4 pb-6 flex-row justify-between">
           {/* 이전 문제로 */}
-          <TouchableOpacity className="p-2 items-center bg-gray-100 border-r-[1px] border-gray-200">
+          <TouchableOpacity className="p-2 items-center">
             <Text className="text-gray-600">이전 문제로</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              setQuizAnswerModalVisible(true);
-              // showAnswer();
-            }}
-            className="p-2 items-center">
-            <Text className="text-gray-600">모범 답안</Text>
-          </TouchableOpacity>
-
           {/* 다음 문제로 */}
-          <TouchableOpacity className="p-2 items-center bg-gray-100 border-l-[1px] border-gray-200">
+          <TouchableOpacity className="p-2 items-center">
             <Text className="text-gray-600">다음 문제로</Text>
           </TouchableOpacity>
         </View>
