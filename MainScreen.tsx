@@ -56,8 +56,6 @@ function MainScreen(): JSX.Element {
 
   return (
     <SafeAreaView className="bg-white" style={{flex: 1}}>
-      {/* 안드로이드 상태바 디자인 통일 */}
-      <StatusBar backgroundColor={'#FFFFFF'} barStyle={'dark-content'} />
       <View className="px-2 flex-row justify-between border-b-[1px] border-gray-100">
         <View className="flex-row items-center">
           <Image
