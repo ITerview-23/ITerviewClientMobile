@@ -23,9 +23,6 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
   const [quiz, setQuiz] = useState();
   const [quizInputList, setQuizInputList] = useState();
 
-  // answer check
-  const [isQuizAnswer, setQuizAnswer] = useState(undefined);
-
   // check message
   const [quizMessage, setQuizMessage] = useState('');
 
@@ -70,7 +67,11 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
         return data.data.checkAnswer;
       })
       .then(answer => {
-        setQuizAnswer(answer);
+        if (answer == true) {
+          setQuizMessage('정답입니다!');
+        } else {
+          setQuizMessage('틀렸습니다!');
+        }
       })
       .catch(error => {
         console.log(error);
@@ -88,7 +89,7 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
             getAnswer(quizId: $quizId)
           }
         `,
-        variables: {quizId: 1},
+        variables: {quizId: quiz && quiz.quizId},
       }),
     })
       .then(async response => {
@@ -103,7 +104,7 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
       });
   };
 
-  useEffect(() => {
+  const getQuiz = () => {
     // get quiz
     fetch('https://www.iterview.site/graphql', {
       method: 'POST',
@@ -128,6 +129,10 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    getQuiz();
   }, []);
 
   return (
@@ -165,8 +170,7 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
               <View className="p-4 pb-10 bg-blue-200 rounded-t-2xl">
                 <TouchableOpacity
                   onPress={() => {
-                    setQuizAnswerModalVisible(true);
-                    // showAnswer();
+                    showAnswer();
                   }}
                   className="p-2 pb-4 items-end">
                   <Text className="text-blue-600">모범 답안</Text>
@@ -209,36 +213,21 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
         </KeyboardAvoidingView>
 
         <View className="p-4 items-center">
-          {isQuizAnswer != undefined &&
-            (isQuizAnswer == true ? (
-              <Text className="text-blue-900">{'정답입니다!'}</Text>
-            ) : (
-              <Text className="text-blue-900">{'땡!'}</Text>
-            ))}
-          {quizMessage && (
-            <Text className="text-blue-900">정답 : {quizMessage}</Text>
-          )}
+          {quizMessage && <Text className="text-blue-900"> {quizMessage}</Text>}
         </View>
 
-        <View className="px-4 pb-6 flex-row justify-between">
-          {/* 이전 문제로 */}
-          <TouchableOpacity className="p-2 items-center">
-            <Text className="text-gray-600">이전 문제로</Text>
-          </TouchableOpacity>
-
+        <View className="px-4 pb-6 flex-row justify-end">
           {/* 다음 문제로 */}
-          <TouchableOpacity className="p-2 items-center">
+          <TouchableOpacity
+            onPress={() => {
+              getQuiz();
+              setQuizMessage('');
+            }}
+            className="p-2 items-center">
             <Text className="text-gray-600">다음 문제로</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      {/* Modal 
-      <QuizAnswerModal
-        visible={quizAnswerModalVisible}
-        onClose={() => setQuizAnswerModalVisible(false)}
-      />
-      */}
     </SafeAreaView>
   );
 }

@@ -28,15 +28,13 @@ function QuizScreen({route, navigation}: any): JSX.Element {
   const [quiz, setQuiz] = useState();
   const [quizInputList, setQuizInputList] = useState();
 
-  // answer check
-  const [isQuizAnswer, setQuizAnswer] = useState(undefined);
-
-  // check message
+  // 퀴즈 관련 메시지
   const [quizMessage, setQuizMessage] = useState('');
 
   // Modal
-  const [quizAnswerModalVisible, setQuizAnswerModalVisible] = useState(false);
+  // const [quizAnswerModalVisible, setQuizAnswerModalVisible] = useState(false);
 
+  // 퀴즈 내부 항목이 바뀔 시 데이터를 재구성하는 함수
   const changeQuizInputByIndex = (index: number, text: string) => {
     if (quizInputList) {
       const oldInput = [...quizInputList];
@@ -75,7 +73,11 @@ function QuizScreen({route, navigation}: any): JSX.Element {
         return data.data.checkAnswer;
       })
       .then(answer => {
-        setQuizAnswer(answer);
+        if (answer == true) {
+          setQuizMessage('정답입니다!');
+        } else {
+          setQuizMessage('틀렸습니다!');
+        }
       })
       .catch(error => {
         console.log(error);
@@ -93,7 +95,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
             getAnswer(quizId: $quizId)
           }
         `,
-        variables: {quizId: 1},
+        variables: {quizId: quiz && quiz.quizId},
       }),
     })
       .then(async response => {
@@ -110,7 +112,6 @@ function QuizScreen({route, navigation}: any): JSX.Element {
 
   // get quiz
   const getQuiz = () => {
-    // get quiz
     fetch('https://www.iterview.site/graphql', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -124,6 +125,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
       }),
     })
       .then(async response => {
+        // 현재 퀴즈 정보를 업데이트합니다.
         const data = await response.json();
         setQuiz(data.data.getQuiz);
 
@@ -176,8 +178,8 @@ function QuizScreen({route, navigation}: any): JSX.Element {
                 <View className="p-4 pb-10 bg-blue-200 rounded-t-2xl">
                   <TouchableOpacity
                     onPress={() => {
-                      setQuizAnswerModalVisible(true);
-                      // showAnswer();
+                      showAnswer();
+                      // setQuizAnswerModalVisible(true);
                     }}
                     className="p-2 pb-4 items-end">
                     <Text className="text-blue-600">모범 답안</Text>
@@ -200,40 +202,31 @@ function QuizScreen({route, navigation}: any): JSX.Element {
           </KeyboardAvoidingView>
 
           <View className="p-4 items-center">
-            {isQuizAnswer != undefined &&
-              (isQuizAnswer == true ? (
-                <Text className="text-blue-900">{'정답입니다!'}</Text>
-              ) : (
-                <Text className="text-blue-900">{'땡!'}</Text>
-              ))}
             {quizMessage && (
-              <Text className="text-blue-900">정답 : {quizMessage}</Text>
+              <Text className="text-blue-900">{quizMessage}</Text>
             )}
           </View>
 
-          <View className="px-4 pb-6 flex-row justify-between">
-            {/* 이전 문제로 */}
-            <TouchableOpacity
-              onPress={() => getQuiz()}
-              className="p-2 items-center">
-              <Text className="text-gray-600">이전 문제로</Text>
-            </TouchableOpacity>
-
+          <View className="px-4 pb-6 flex-row justify-end">
             {/* 다음 문제로 */}
             <TouchableOpacity
-              onPress={() => getQuiz()}
+              onPress={() => {
+                getQuiz();
+                setQuizMessage('');
+              }}
               className="p-2 items-center">
               <Text className="text-gray-600">다음 문제로</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
 
-        {/* Modal 
-      <QuizAnswerModal
-        visible={quizAnswerModalVisible}
-        onClose={() => setQuizAnswerModalVisible(false)}
-      />
-      */}
+        {/* 퀴즈 모법 답안을 보여주는 모달 
+        <QuizAnswerModal
+          visible={quizAnswerModalVisible}
+          onClose={() => setQuizAnswerModalVisible(false)}
+          answer={answer}
+        />
+        */}
       </SafeAreaView>
     </>
   );
