@@ -23,7 +23,7 @@ import Subject from './Components/Subjects/Subject';
 import MyProfileModal from './Components/Profiles/MyProfileModal';
 import QuizModal from './Components/Quizzes/QuizModal';
 
-function MainScreen(): JSX.Element {
+function MainScreen({navigation}: any): JSX.Element {
   const [deviceUniqueID, setdeviceUniqueID] = useState('');
   const [listOfSubject, setListOfSubject] = useState([]);
 
@@ -62,7 +62,7 @@ function MainScreen(): JSX.Element {
             source={require('./Components/Images/Logo128.png')}
             style={{width: 48, height: 48}}
           />
-          <Text className="text-md text-gray-800 font-medium">잇터뷰</Text>
+          <Text className="text-lg text-gray-700 font-medium">잇터뷰</Text>
         </View>
         <View className="items-center justify-center">
           {/* 프로필 버튼 - 추후 변경 예정, 1차 출시 때 미완성인 기능이므로 투명으로 색상 변경 */}
@@ -94,13 +94,17 @@ function MainScreen(): JSX.Element {
             </View>
           </TouchableOpacity>
 
+          {/* 주제별 퀴즈 헤더 */}
           <Text className="mt-6 text-lg font-medium text-gray-800">
             주제별 퀴즈
           </Text>
 
           {/* 데일리 면접 퀴즈  */}
           <TouchableOpacity
-            onPress={() => setQuizModalVisible(true)}
+            onPress={
+              () => navigation.navigate('Quiz', {subjectId: 1})
+              // setQuizModalVisible(true)
+            }
             className="mt-4 p-6 bg-blue-100 rounded-2xl">
             <View className="flex-row justify-between">
               <Image

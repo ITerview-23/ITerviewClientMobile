@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
   View,
-  Modal,
   Image,
   Text,
   TextInput,
@@ -10,6 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
+
 import QuizAnswerModal from './QuizAnswerModal';
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
   quizInfo: Array<string>;
 }
 
-function QuizScreen({visible, onClose}): JSX.Element {
+function QuizScreen({route, navigation}: any): JSX.Element {
   const [quiz, setQuiz] = useState();
   const [quizInputList, setQuizInputList] = useState();
 
@@ -131,108 +131,102 @@ function QuizScreen({visible, onClose}): JSX.Element {
   }, []);
 
   return (
-    <Modal
-      visible={visible}
-      animationType={'fade'}
-      transparent={true}
-      onRequestClose={onClose}>
-      <SafeAreaView className="flex-1 bg-white">
-        <View className="px-2 flex-row justify-between border-b-[1px] border-gray-100">
-          <View className="justify-center">
-            <TouchableOpacity
-              onPress={onClose}
-              className="w-8 h-8 rounded-full justify-center items-center">
-              <Text className="text-gray-600">ᐸ</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View>
-            <Image
-              source={require('../Images/Logo128.png')}
-              style={{width: 48, height: 48}}
-            />
-          </View>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="px-2 flex-row justify-between border-b-[1px] border-gray-100">
+        <View className="justify-center">
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className="w-8 h-8 rounded-full justify-center items-center">
+            <Text className="text-gray-600">ᐸ</Text>
+          </TouchableOpacity>
         </View>
 
-        <ScrollView>
-          <KeyboardAvoidingView>
-            <Text className="m-4 self-center text-lg font-bold text-gray-900">
-              주제 : 운영체제
-            </Text>
-            <View className="m-4 bg-white rounded-2xl">
-              <View>
-                <View className="p-4 py-10 bg-blue-200 rounded-t-2xl">
-                  <View className="flex-row flex-wrap items-center justify-center">
-                    {quiz &&
-                      quiz.quizInfo.map((value, index) => {
-                        if (value.length == 0) {
-                          return (
-                            <TextInput
-                              key={index}
-                              onChangeText={text => {
-                                changeQuizInputByIndex(index, text);
-                              }}
-                              editable={true}
-                              numberOfLines={1}
-                              className="pb-2 px-2 m-2 rounded-lg border-b-2 border-blue-500 bg-gray-100 text-lg"
-                            />
-                          );
-                        } else {
-                          return (
-                            <Text key={index} className="text-lg text-gray-900">
-                              {value}
-                            </Text>
-                          );
-                        }
-                      })}
-                  </View>
+        <View>
+          <Image
+            source={require('../Images/Logo128.png')}
+            style={{width: 48, height: 48}}
+          />
+        </View>
+      </View>
+
+      <ScrollView>
+        <KeyboardAvoidingView>
+          <Text className="m-4 self-center text-lg font-bold text-gray-900">
+            주제 : 운영체제
+          </Text>
+          <View className="m-4 bg-white rounded-2xl">
+            <View>
+              <View className="p-4 py-10 bg-blue-200 rounded-t-2xl">
+                <View className="flex-row flex-wrap items-center justify-center">
+                  {quiz &&
+                    quiz.quizInfo.map((value, index) => {
+                      if (value.length == 0) {
+                        return (
+                          <TextInput
+                            key={index}
+                            onChangeText={text => {
+                              changeQuizInputByIndex(index, text);
+                            }}
+                            editable={true}
+                            numberOfLines={1}
+                            className="pb-2 px-2 m-2 rounded-lg border-b-2 border-blue-500 bg-gray-100 text-lg"
+                          />
+                        );
+                      } else {
+                        return (
+                          <Text key={index} className="text-lg text-gray-900">
+                            {value}
+                          </Text>
+                        );
+                      }
+                    })}
                 </View>
               </View>
-
-              <TouchableOpacity
-                onPress={() => {
-                  checkAnswer();
-                }}
-                className="py-4 bg-blue-500 items-center rounded-b-2xl">
-                <Text className="text-lg text-gray-100">답안 제출</Text>
-              </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-
-          <View className="p-4 items-center">
-            {isQuizAnswer != undefined &&
-              (isQuizAnswer == true ? (
-                <Text className="text-blue-900">{'정답입니다!'}</Text>
-              ) : (
-                <Text className="text-blue-900">{'땡!'}</Text>
-              ))}
-            {quizMessage && (
-              <Text className="text-blue-900">정답 : {quizMessage}</Text>
-            )}
-          </View>
-
-          <View className="mx-4 flex-row justify-between border-[1px] border-gray-200 rounded-lg">
-            {/* 이전 문제로 */}
-            <TouchableOpacity className="p-2 items-center bg-gray-100 border-r-[1px] border-gray-200">
-              <Text className="text-gray-600">이전 문제로</Text>
-            </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => {
-                setQuizAnswerModalVisible(true);
-                // showAnswer();
+                checkAnswer();
               }}
-              className="p-2 items-center">
-              <Text className="text-gray-600">모범 답안</Text>
-            </TouchableOpacity>
-
-            {/* 다음 문제로 */}
-            <TouchableOpacity className="p-2 items-center bg-gray-100 border-l-[1px] border-gray-200">
-              <Text className="text-gray-600">다음 문제로</Text>
+              className="py-4 bg-blue-500 items-center rounded-b-2xl">
+              <Text className="text-lg text-gray-100">답안 제출</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+        </KeyboardAvoidingView>
+
+        <View className="p-4 items-center">
+          {isQuizAnswer != undefined &&
+            (isQuizAnswer == true ? (
+              <Text className="text-blue-900">{'정답입니다!'}</Text>
+            ) : (
+              <Text className="text-blue-900">{'땡!'}</Text>
+            ))}
+          {quizMessage && (
+            <Text className="text-blue-900">정답 : {quizMessage}</Text>
+          )}
+        </View>
+
+        <View className="mx-4 flex-row justify-between border-[1px] border-gray-200 rounded-lg">
+          {/* 이전 문제로 */}
+          <TouchableOpacity className="p-2 items-center bg-gray-100 border-r-[1px] border-gray-200">
+            <Text className="text-gray-600">이전 문제로</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setQuizAnswerModalVisible(true);
+              // showAnswer();
+            }}
+            className="p-2 items-center">
+            <Text className="text-gray-600">모범 답안</Text>
+          </TouchableOpacity>
+
+          {/* 다음 문제로 */}
+          <TouchableOpacity className="p-2 items-center bg-gray-100 border-l-[1px] border-gray-200">
+            <Text className="text-gray-600">다음 문제로</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
 
       {/* Modal 
       <QuizAnswerModal
@@ -240,7 +234,7 @@ function QuizScreen({visible, onClose}): JSX.Element {
         onClose={() => setQuizAnswerModalVisible(false)}
       />
       */}
-    </Modal>
+    </SafeAreaView>
   );
 }
 
