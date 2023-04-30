@@ -138,6 +138,9 @@ function MainScreen({navigation}: any): JSX.Element {
                 return (
                   <TouchableOpacity
                     key={index}
+                    onPress={() =>
+                      navigation.navigate('Quiz', {element: element})
+                    }
                     className="mt-2 p-4 bg-gray-100 rounded-2xl">
                     <Subject element={element && element} />
                   </TouchableOpacity>

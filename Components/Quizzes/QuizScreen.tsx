@@ -20,6 +20,9 @@ interface Props {
 }
 
 function QuizScreen({route, navigation}: any): JSX.Element {
+  // 퀴즈 주제 정보
+  const [QuizListInfo, setQuizListInfo] = useState();
+
   const [quiz, setQuiz] = useState();
   const [quizInputList, setQuizInputList] = useState();
 
@@ -104,6 +107,8 @@ function QuizScreen({route, navigation}: any): JSX.Element {
   };
 
   useEffect(() => {
+    setQuizListInfo(route.params.element);
+
     // get quiz
     fetch('https://www.iterview.site/graphql', {
       method: 'POST',
@@ -152,7 +157,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
       <ScrollView>
         <KeyboardAvoidingView>
           <Text className="m-4 self-center text-lg font-bold text-gray-900">
-            주제 : 운영체제
+            주제 : {(QuizListInfo && QuizListInfo.name) ?? '랜덤 퀴즈'}
           </Text>
           <View className="m-4 bg-white rounded-2xl">
             <View>
