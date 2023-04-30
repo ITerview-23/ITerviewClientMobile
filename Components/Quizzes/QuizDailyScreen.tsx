@@ -59,7 +59,7 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
             checkAnswer(quizId: $quizId, answer: $answer)
           }
         `,
-        variables: {quizId: 1, answer: submitQuizInputList},
+        variables: {quizId: quiz && quiz.quizId, answer: submitQuizInputList},
       }),
     })
       .then(async response => {
