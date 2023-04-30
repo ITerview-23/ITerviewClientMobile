@@ -119,7 +119,7 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
     })
       .then(async response => {
         const data = await response.json();
-        setQuiz(data.data.getQuiz);
+        setQuiz(data.data.getDailyQuiz);
 
         // initiate quizinputlist
         tmpArray = Array(quiz && quiz.quizInfo.length).fill('');
@@ -136,8 +136,8 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
         <View className="justify-center">
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            className="w-8 h-8 rounded-full justify-center items-center">
-            <Text className="text-gray-600">ᐸ</Text>
+            className="justify-center items-center">
+            <Text className="text-gray-600">닫기</Text>
           </TouchableOpacity>
         </View>
 
@@ -152,7 +152,9 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
       <ScrollView>
         <KeyboardAvoidingView>
           <View className="m-4 self-center items-center">
-            <Text className="px-2 pt-2 text-gray-500 rounded-t-2xl">주제</Text>
+            <Text className="px-2 pt-2 text-gray-500 rounded-t-2xl">
+              모든 주제 포함
+            </Text>
             <Text className="px-2 pb-2 text-lg font-medium text-gray-800">
               데일리 퀴즈
             </Text>
