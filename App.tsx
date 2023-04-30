@@ -98,6 +98,10 @@ function App(): JSX.Element {
             </View>
           </TouchableOpacity>
 
+          <Text className="mt-6 text-lg font-medium text-gray-800">
+            주제별 퀴즈
+          </Text>
+
           {/* 데일리 면접 퀴즈  */}
           <TouchableOpacity
             onPress={() => setQuizModalVisible(true)}
@@ -128,13 +132,13 @@ function App(): JSX.Element {
           </TouchableOpacity>
 
           {/* 주제 별 기술 면접 퀴즈 섹션 */}
-          <View className="mt-2 space-y-2">
+          <View className="space-y-2">
             {listOfSubject &&
               listOfSubject.map((element, index) => {
                 return (
                   <TouchableOpacity
                     key={index}
-                    className="bg-gray-100 rounded-lg">
+                    className="mt-2 p-4 bg-gray-100 rounded-2xl">
                     <Subject element={element && element} />
                   </TouchableOpacity>
                 );

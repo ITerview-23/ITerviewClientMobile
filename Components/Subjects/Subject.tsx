@@ -6,20 +6,21 @@ function Subject({element}): JSX.Element {
     <View className="m-2 flex-row justify-between">
       <View className="flex-row">
         <Image
-          source={require('../Images/Icons/Global.png')}
-          className="w-10 h-10 self-center"
+          source={
+            element.image
+              ? {uri: element.image}
+              : require('../Images/Icons/Global.png')
+          }
+          className="w-8 h-8"
         />
         <View className="ml-2">
           <Text className="text-lg font-bold text-gray-900">
             {element.name ?? '제목을 입력하세요.'}
           </Text>
-          <Text className="text-gray-900">
+          <Text className="text-gray-600">
             {element.description ?? '설명을 입력하세요.'}
           </Text>
         </View>
-      </View>
-      <View className="justify-center">
-        <Text className="text-lg font-bold text-gray-400">〉</Text>
       </View>
     </View>
   );
