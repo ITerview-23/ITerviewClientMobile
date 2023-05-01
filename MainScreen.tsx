@@ -76,7 +76,9 @@ function MainScreen({navigation}: any): JSX.Element {
         <View className="p-4">
           {/* 사용 팁  */}
           <TouchableOpacity
-            onPress={() => Linking.openURL('https://iterview-23.github.io/')}
+            onPress={() =>
+              Linking.openURL('https://iterview-23.github.io/page/200.html')
+            }
             className="p-4 bg-gray-100 rounded-2xl">
             <View className="flex-row justify-between">
               <Image
