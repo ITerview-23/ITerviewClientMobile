@@ -151,7 +151,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
             <TouchableOpacity
               onPress={() => navigation.goBack()}
               className="justify-center items-center">
-              <Text className="text-gray-600">닫기</Text>
+              <Text className="ml-2 text-gray-500 text-lg">닫기</Text>
             </TouchableOpacity>
           </View>
 
