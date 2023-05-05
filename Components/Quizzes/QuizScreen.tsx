@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 
 import Quiz from './Quiz';
@@ -26,7 +27,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
   const [QuizListInfo, setQuizListInfo] = useState();
 
   const [quiz, setQuiz] = useState();
-  const [quizInputList, setQuizInputList] = useState();
+  const [quizInputList, setQuizInputList] = useState([]);
 
   // 퀴즈 관련 메시지
   const [quizMessage, setQuizMessage] = useState('');
@@ -112,6 +113,10 @@ function QuizScreen({route, navigation}: any): JSX.Element {
 
   // get quiz
   const getQuiz = () => {
+    // 기존 퀴즈 데이터 초기화
+    setQuiz({quizId: -1, quizInfo: []});
+
+    // 새 퀴즈 데이터를 가져온다.
     fetch('https://www.iterview.site/graphql', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -184,6 +189,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
                     className="p-2 pb-4 items-end">
                     <Text className="text-blue-600">모범 답안</Text>
                   </TouchableOpacity>
+
                   <Quiz
                     quiz={quiz && quiz}
                     changeQuizInputByIndex={changeQuizInputByIndex}

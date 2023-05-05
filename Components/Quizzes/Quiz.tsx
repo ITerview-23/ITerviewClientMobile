@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, TextInput, Text} from 'react-native';
 
 const Quiz = ({quiz, changeQuizInputByIndex}: any): JSX.Element => {
+  useEffect(() => {}, [quiz]);
+
   return (
     <View className="flex flex-row flex-wrap items-center justify-center">
       {quiz &&
@@ -10,6 +12,9 @@ const Quiz = ({quiz, changeQuizInputByIndex}: any): JSX.Element => {
             return (
               <TextInput
                 key={index}
+                ref={input => {
+                  this.textInput = input;
+                }}
                 onChangeText={text => {
                   changeQuizInputByIndex(index, text);
                 }}

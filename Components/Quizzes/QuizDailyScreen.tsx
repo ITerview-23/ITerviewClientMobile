@@ -105,6 +105,9 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
   };
 
   const getQuiz = () => {
+    // 퀴즈 데이터 초기화
+    setQuiz({quizId: -1, quizInfo: []});
+
     // get quiz
     fetch('https://www.iterview.site/graphql', {
       method: 'POST',
