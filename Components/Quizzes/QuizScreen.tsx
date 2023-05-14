@@ -178,9 +178,9 @@ function QuizScreen({route, navigation}: any): JSX.Element {
                 {(QuizListInfo && QuizListInfo.name) ?? '랜덤 퀴즈'}
               </Text>
             </View>
-            <View className="m-4 bg-white rounded-2xl">
+            <View className="m-4 rounded-2xl">
               <View>
-                <View className="p-4 pb-10 bg-blue-200 rounded-t-2xl">
+                <View className="px-4  bg-blue-200 rounded-t-2xl">
                   <TouchableOpacity
                     onPress={() => {
                       showAnswer();

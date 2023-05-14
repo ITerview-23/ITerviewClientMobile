@@ -12,6 +12,8 @@ import {
 
 import QuizAnswerModal from './QuizAnswerModal';
 
+import Quiz from './Quiz';
+
 interface Props {
   visible: boolean;
   onClose: () => void;
@@ -178,30 +180,11 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
                   className="p-2 pb-4 items-end">
                   <Text className="text-blue-600">모범 답안</Text>
                 </TouchableOpacity>
-                <View className="flex-row flex-wrap items-center justify-center">
-                  {quiz &&
-                    quiz.quizInfo.map((value, index) => {
-                      if (value.length == 0) {
-                        return (
-                          <TextInput
-                            key={index}
-                            onChangeText={text => {
-                              changeQuizInputByIndex(index, text);
-                            }}
-                            editable={true}
-                            numberOfLines={1}
-                            className="pb-2 px-2 m-2 rounded-lg border-b-2 border-blue-500 bg-gray-100 text-lg"
-                          />
-                        );
-                      } else {
-                        return (
-                          <Text key={index} className="text-lg text-gray-900">
-                            {value}
-                          </Text>
-                        );
-                      }
-                    })}
-                </View>
+
+                <Quiz
+                  quiz={quiz && quiz}
+                  changeQuizInputByIndex={changeQuizInputByIndex}
+                />
               </View>
             </View>
 
