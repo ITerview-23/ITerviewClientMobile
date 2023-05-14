@@ -170,9 +170,9 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
             </Text>
           </View>
 
-          <View className="m-4 bg-white rounded-2xl">
+          <View className="m-4 rounded-2xl">
             <View>
-              <View className="p-4 pb-10 bg-blue-200 rounded-t-2xl">
+              <View className="p-4 bg-blue-200 rounded-t-2xl">
                 <TouchableOpacity
                   onPress={() => {
                     showAnswer();

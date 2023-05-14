@@ -180,7 +180,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
             </View>
             <View className="m-4 rounded-2xl">
               <View>
-                <View className="px-4  bg-blue-200 rounded-t-2xl">
+                <View className="p-4 bg-blue-200 rounded-t-2xl">
                   <TouchableOpacity
                     onPress={() => {
                       showAnswer();
