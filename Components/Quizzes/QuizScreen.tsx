@@ -31,6 +31,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
 
   // 퀴즈 관련 메시지
   const [quizMessage, setQuizMessage] = useState('');
+  const [quizBackgroundColor, setQuizBackgroundColor] = useState('#f3f4f6');
 
   // Modal
   // const [quizAnswerModalVisible, setQuizAnswerModalVisible] = useState(false);
@@ -76,8 +77,10 @@ function QuizScreen({route, navigation}: any): JSX.Element {
       .then(answer => {
         if (answer == true) {
           setQuizMessage('정답입니다!');
+          setQuizBackgroundColor('#dbeafe');
         } else {
           setQuizMessage('틀렸습니다!');
+          setQuizBackgroundColor('#fee2e2');
         }
       })
       .catch(error => {
@@ -115,6 +118,9 @@ function QuizScreen({route, navigation}: any): JSX.Element {
   const getQuiz = () => {
     // 기존 퀴즈 데이터 초기화
     setQuiz({quizId: -1, quizInfo: []});
+
+    // 퀴즈 배경색 초기화
+    setQuizBackgroundColor('#f3f4f6');
 
     // 새 퀴즈 데이터를 가져온다.
     fetch('https://www.iterview.site/graphql', {
@@ -180,7 +186,9 @@ function QuizScreen({route, navigation}: any): JSX.Element {
             </View>
             <View className="m-4 rounded-2xl">
               <View>
-                <View className="p-4 bg-blue-200 rounded-t-2xl">
+                <View
+                  className="p-4 bg-gray-100 rounded-t-2xl"
+                  style={{backgroundColor: quizBackgroundColor}}>
                   <TouchableOpacity
                     onPress={() => {
                       showAnswer();

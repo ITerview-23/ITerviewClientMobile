@@ -22,7 +22,7 @@ const Quiz = ({quiz, changeQuizInputByIndex}: any): JSX.Element => {
                     }}
                     editable={true}
                     numberOfLines={1}
-                    className="w-24 pb-2 px-2 m-2 rounded-lg border-b-2 border-blue-500 bg-gray-100 text-lg"
+                    className="pb-2 px-2 m-2 rounded-lg border-b-2 border-blue-500 bg-white text-lg"
                   />
                 );
               } else {
