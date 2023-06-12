@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, TextInput, Text, ScrollView} from 'react-native';
 
 const QuizV2 = ({quiz, changeQuizInputByIndex}: any): JSX.Element => {

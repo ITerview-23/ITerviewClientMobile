@@ -12,7 +12,7 @@ import {
 
 import QuizAnswerModal from './QuizAnswerModal';
 
-import Quiz from './Quiz';
+import QuizV2 from './QuizV2';
 
 interface Props {
   visible: boolean;
@@ -39,6 +39,11 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
       setQuizInputList(oldInput);
     }
   };
+
+  function getRandomElementFromArray(arr: Array<any>) {
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    return arr[randomIndex];
+  }
 
   // check answer
   const checkAnswer = () => {
@@ -116,25 +121,30 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
     // 퀴즈 배경색 초기화
     setQuizBackgroundColor('#f3f4f6');
 
+    // 퀴즈 주제들 중 랜덤으로 선택
+    const randQuizListId = getRandomElementFromArray([1, 2, 3, 4]);
+
     // get quiz
     fetch('https://www.iterview.site/graphql', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         query: `query ExampleQuery {
-            getDailyQuiz(userId: "1") {
-                quizId
-                quizInfo
-            }
+          getQuizV2(quizListId: ${randQuizListId}, userId: "1") {
+            answerNum
+            correct
+            quizId
+            quizInfo
+          }
         }`,
       }),
     })
       .then(async response => {
         const data = await response.json();
-        setQuiz(data.data.getDailyQuiz);
+        setQuiz(data.data.getQuizV2);
 
         // initiate quizinputlist
-        tmpArray = Array(quiz && quiz.quizInfo.length).fill('');
+        tmpArray = Array(quiz && quiz.answerNum).fill('');
         setQuizInputList(tmpArray);
       })
       .catch(err => {
@@ -189,7 +199,7 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
                   <Text className="text-blue-600">모범 답안</Text>
                 </TouchableOpacity>
 
-                <Quiz
+                <QuizV2
                   quiz={quiz && quiz}
                   changeQuizInputByIndex={changeQuizInputByIndex}
                 />
