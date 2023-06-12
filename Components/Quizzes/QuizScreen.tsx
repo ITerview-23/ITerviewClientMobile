@@ -11,9 +11,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-import Quiz from './Quiz';
-
-import QuizAnswerModal from './QuizAnswerModal';
+import QuizV2 from './QuizV2';
 
 interface Props {
   visible: boolean;
@@ -128,9 +126,11 @@ function QuizScreen({route, navigation}: any): JSX.Element {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         query: `query ExampleQuery {
-            getQuiz(quizListId: ${route.params.element.quizListId}, userId: "1") {
-                quizId
-                quizInfo
+            getQuizV2(quizListId: ${route.params.element.quizListId}, userId: "1") {
+              answerNum
+              correct
+              quizId
+              quizInfo
             }
         }`,
       }),
@@ -138,10 +138,10 @@ function QuizScreen({route, navigation}: any): JSX.Element {
       .then(async response => {
         // 현재 퀴즈 정보를 업데이트합니다.
         const data = await response.json();
-        setQuiz(data.data.getQuiz);
+        setQuiz(data.data.getQuizV2);
 
         // initiate quizinputlist
-        tmpArray = Array(quiz && quiz.quizInfo.length).fill('');
+        tmpArray = Array(quiz && quiz.answerNum).fill('');
         setQuizInputList(tmpArray);
       })
       .catch(err => {
@@ -197,8 +197,7 @@ function QuizScreen({route, navigation}: any): JSX.Element {
                     className="p-2 pb-4 items-end">
                     <Text className="text-blue-600">모범 답안</Text>
                   </TouchableOpacity>
-
-                  <Quiz
+                  <QuizV2
                     quiz={quiz && quiz}
                     changeQuizInputByIndex={changeQuizInputByIndex}
                   />
