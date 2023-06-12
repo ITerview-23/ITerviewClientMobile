@@ -104,7 +104,10 @@ function MainScreen({navigation}: any): JSX.Element {
           {/* 데일리 면접 퀴즈  */}
           <TouchableOpacity
             onPress={
-              () => navigation.navigate('QuizDaily')
+              () =>
+                navigation.navigate('QuizDaily', {
+                  quizListNum: listOfSubject && listOfSubject.length,
+                })
               // setQuizModalVisible(true)
             }
             className="mt-4 p-6 bg-blue-100 rounded-2xl">

@@ -29,9 +29,6 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
   const [quizMessage, setQuizMessage] = useState('');
   const [quizBackgroundColor, setQuizBackgroundColor] = useState('#f3f4f6');
 
-  // Modal
-  const [quizAnswerModalVisible, setQuizAnswerModalVisible] = useState(false);
-
   const changeQuizInputByIndex = (index: number, text: string) => {
     if (quizInputList) {
       const oldInput = [...quizInputList];
@@ -122,7 +119,9 @@ function QuizDailyScreen({route, navigation}: any): JSX.Element {
     setQuizBackgroundColor('#f3f4f6');
 
     // 퀴즈 주제들 중 랜덤으로 선택
-    const randQuizListId = getRandomElementFromArray([1, 2, 3, 4]);
+    const randQuizListId = getRandomElementFromArray(
+      Array.from({length: route.params.quizListNum}, (_, index) => index + 1),
+    );
 
     // get quiz
     fetch('https://www.iterview.site/graphql', {
