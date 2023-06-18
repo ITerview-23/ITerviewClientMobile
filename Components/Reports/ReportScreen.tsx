@@ -13,11 +13,11 @@ import ReportSubject from './ReportSubject';
 
 function ReportScreen({route, navigation}: any): JSX.Element {
   // 선택한 면접 주제
-  const [selSubjectId, setSelSubjectId] = useState(0);
+  const [selSubjectId, setSelSubjectId] = useState(-1);
   // 입력한 면접 질문
   const [quizInfo, setQuizInfo] = useState('');
   // 입력한 면접 답안
-  const [answer, setAnswer] = useState(['apple', 'banana']);
+  const [answer, setAnswer] = useState([]);
   const [inputAnswer, setInputAnswer] = useState('');
 
   // 면접 답안 추가하는 함수
@@ -30,6 +30,36 @@ function ReportScreen({route, navigation}: any): JSX.Element {
     setAnswer(prevAnswer =>
       prevAnswer.filter(value => value !== valueToRemove),
     );
+  };
+
+  const reportQuiz = async () => {
+    // 면접 주제, 면접 질문, 면접 답안 모두 1개 이상 선택해야 함
+    if (selSubjectId == -1 || !quizInfo || answer.length == 0) {
+      return;
+    }
+
+    fetch('https://www.iterview.site/graphql', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        query: `
+          query ExampleQuery($quizId: Int!) {
+            reportQuiz(quizListId: $quizListId, quizInfo: $quizInfo, answer: $answer) {
+              message
+              result
+            }
+          }
+        `,
+        variables: {
+          quizListId: selSubjectId && selSubjectId,
+          quizInfo: quizInfo && quizInfo,
+          answer: answer && answer,
+        },
+      }),
+    }).then(async response => {
+      const data = await response.json();
+      return data.data.reportQuiz.toString();
+    });
   };
 
   return (
@@ -158,7 +188,11 @@ function ReportScreen({route, navigation}: any): JSX.Element {
         </ScrollView>
 
         {/* 제출 */}
-        <TouchableOpacity className="p-4 bg-blue-500 items-center">
+        <TouchableOpacity
+          onPress={() => {
+            reportQuiz();
+          }}
+          className="p-4 bg-blue-500 items-center">
           <Text className="text-lg text-gray-100">제보하기</Text>
         </TouchableOpacity>
       </SafeAreaView>
