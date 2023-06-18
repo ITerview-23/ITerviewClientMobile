@@ -34,7 +34,8 @@ local.properties
 *.keystore
 !debug.keystore
 
-android/app/src/main/assets/appcenter-config.json
+# appcenter config
+/android/app/src/main/assets/appcenter-config.json
 
 
 # node.js
