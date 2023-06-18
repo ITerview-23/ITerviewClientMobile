@@ -7,6 +7,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MainScreen from './MainScreen';
 import QuizScreen from './Components/Quizzes/QuizScreen';
 import QuizDailyScreen from './Components/Quizzes/QuizDailyScreen';
+import ReportScreen from './Components/Reports/ReportScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ function App(): JSX.Element {
           <Stack.Screen name="Main" component={MainScreen} />
           <Stack.Screen name="QuizDaily" component={QuizDailyScreen} />
           <Stack.Screen name="Quiz" component={QuizScreen} />
+          <Stack.Screen name="Report" component={ReportScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

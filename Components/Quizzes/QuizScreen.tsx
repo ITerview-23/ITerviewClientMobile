@@ -3,12 +3,10 @@ import {
   View,
   Image,
   Text,
-  TextInput,
   TouchableOpacity,
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
-  ActivityIndicator,
 } from 'react-native';
 
 import QuizV2 from './QuizV2';

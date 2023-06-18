@@ -96,6 +96,32 @@ function MainScreen({navigation}: any): JSX.Element {
             </View>
           </TouchableOpacity>
 
+          <View className="py-1"></View>
+
+          {/* 면접 정보 제공  */}
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Report', {
+                listOfSubject: listOfSubject && listOfSubject,
+              })
+            }
+            className="p-4 bg-gray-100 rounded-2xl">
+            <View className="flex-row justify-between">
+              <Image
+                source={require('./Components/Images/Icons/potted-plant.png')}
+                className="w-6 h-6"
+              />
+              <View className="pl-2 w-full">
+                <View className="items-left flex-wrap">
+                  <Text className="text-xs text-green-500">면접 제보</Text>
+                  <Text className=" text-gray-700 font-medium">
+                    나의 면접 경험 제보하기
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+
           {/* 주제별 퀴즈 헤더 */}
           <Text className="mt-6 text-lg font-medium text-gray-800">
             주제별 퀴즈
