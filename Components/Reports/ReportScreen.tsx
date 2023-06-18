@@ -3,6 +3,7 @@ import {
   ScrollView,
   SafeAreaView,
   Text,
+  Alert,
   View,
   TouchableOpacity,
   Image,
@@ -20,6 +21,12 @@ function ReportScreen({route, navigation}: any): JSX.Element {
   const [answer, setAnswer] = useState([]);
   const [inputAnswer, setInputAnswer] = useState('');
 
+  // 제보 완료 여부 메시지
+  const messageAlert = ({message, result}: any) =>
+    Alert.alert('제보 결과 알림', message, [
+      {text: '확인', onPress: () => console.log('OK Pressed')},
+    ]);
+
   // 면접 답안 추가하는 함수
   const addAnswer = (newAnswer: string) => {
     setAnswer(prevAnswer => [...prevAnswer, newAnswer]);
@@ -32,6 +39,7 @@ function ReportScreen({route, navigation}: any): JSX.Element {
     );
   };
 
+  // 면접 제보 함수
   const reportQuiz = async () => {
     // 면접 주제, 면접 질문, 면접 답안 모두 1개 이상 선택해야 함
     if (selSubjectId == -1 || !quizInfo || answer.length == 0) {
@@ -56,10 +64,14 @@ function ReportScreen({route, navigation}: any): JSX.Element {
           answer: answer && answer,
         },
       }),
-    }).then(async response => {
-      const data = await response.json();
-      return data.data.reportQuiz.toString();
-    });
+    })
+      .then(async response => {
+        const data = await response.json();
+        return data.data.reportQuiz.toString();
+      })
+      .then(async res => {
+        messageAlert(res.message);
+      });
   };
 
   return (
