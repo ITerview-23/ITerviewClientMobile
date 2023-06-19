@@ -89,7 +89,7 @@ function MainScreen({navigation}: any): JSX.Element {
                 <View className="items-left flex-wrap">
                   <Text className="text-xs text-yellow-500">사용 팁</Text>
                   <Text className=" text-gray-700 font-medium">
-                    잇터뷰 200% 활용법
+                    잇터뷰 200% 활용 방법
                   </Text>
                 </View>
               </View>

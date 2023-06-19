@@ -23,9 +23,7 @@ function ReportScreen({route, navigation}: any): JSX.Element {
 
   // 제보 완료 여부 메시지
   const messageAlert = ({message, result}: any) =>
-    Alert.alert('제보 결과 알림', message, [
-      {text: '확인', onPress: () => console.log('OK Pressed')},
-    ]);
+    Alert.alert('제보 결과 알림', message, [{text: '확인', onPress: () => {}}]);
 
   // 면접 답안 추가하는 함수
   const addAnswer = (newAnswer: string) => {
@@ -50,8 +48,7 @@ function ReportScreen({route, navigation}: any): JSX.Element {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        query: `
-          query ExampleQuery($quizId: Int!) {
+        query: `query ExampleQuery($quizListId: Int!, $quizInfo: String!, $answer: [String!]!) {
             reportQuiz(quizListId: $quizListId, quizInfo: $quizInfo, answer: $answer) {
               message
               result
@@ -59,19 +56,15 @@ function ReportScreen({route, navigation}: any): JSX.Element {
           }
         `,
         variables: {
-          quizListId: selSubjectId && selSubjectId,
+          quizListId: selSubjectId && selSubjectId + 1,
           quizInfo: quizInfo && quizInfo,
           answer: answer && answer,
         },
       }),
-    })
-      .then(async response => {
-        const data = await response.json();
-        return data.data.reportQuiz.toString();
-      })
-      .then(async res => {
-        messageAlert(res.message);
-      });
+    }).then(async response => {
+      const data = await response.json();
+      messageAlert(data.data.reportQuiz);
+    });
   };
 
   return (
@@ -117,6 +110,7 @@ function ReportScreen({route, navigation}: any): JSX.Element {
                   (element: any, index: number) => {
                     return (
                       <TouchableOpacity
+                        key={index}
                         onPress={() => {
                           setSelSubjectId(index);
                         }}>
