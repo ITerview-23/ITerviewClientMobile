@@ -3,6 +3,8 @@ import {SafeAreaView, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import CodePush from 'react-native-code-push';
+
 // Stack Screens
 import MainScreen from './MainScreen';
 import QuizScreen from './Components/Quizzes/QuizScreen';
@@ -28,4 +30,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default CodePush(App);
